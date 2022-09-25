@@ -1,6 +1,6 @@
-QBShared = QBShared or {}
+PSRShared = PSRShared or {}
 
-QBShared.Gangs = {
+PSRShared.Gangs = {
 	['none'] = {
 		label = 'No Gang',
 		grades = {

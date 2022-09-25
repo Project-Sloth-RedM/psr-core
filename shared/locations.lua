@@ -1,4 +1,4 @@
-QBShared.Locations = {
+PSRShared.Locations = {
     -- add here
 
 }

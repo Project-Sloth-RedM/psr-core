@@ -1,6 +1,6 @@
-QBShared = QBShared or {}
+PSRShared = PSRShared or {}
 
-QBShared.Horses = {
+PSRShared.Horses = {
 	['Donkey'] = {
 		['name'] = 'Donkey',
 		['model'] = `A_C_Donkey_01`,

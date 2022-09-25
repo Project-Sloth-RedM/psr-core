@@ -1,6 +1,6 @@
-QBShared = QBShared or {}
+PSRShared = PSRShared or {}
 
-QBShared.Vehicles = {
+PSRShared.Vehicles = {
 	['CART01'] = {
 		['name'] = 'Wooden Cart 1',
 		['brand'] = '?',

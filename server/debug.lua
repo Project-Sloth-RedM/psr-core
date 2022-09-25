@@ -25,21 +25,21 @@ local function tPrint(tbl, indent)
     end
 end
 
-RegisterServerEvent('QBCore:DebugSomething', function(tbl, indent)
-    local resource = GetInvokingResource() or "qb-core"
+RegisterServerEvent('PSRCore:DebugSomething', function(tbl, indent)
+    local resource = GetInvokingResource() or "psr-core"
     print(('\x1b[4m\x1b[36m[ %s : DEBUG]\x1b[0m'):format(resource))
     tPrint(tbl, indent)
     print('\x1b[4m\x1b[36m[ END DEBUG ]\x1b[0m')
 end)
 
-function QBCore.Debug(tbl, indent)
-    TriggerEvent('QBCore:DebugSomething', tbl, indent)
+function PSRCore.Debug(tbl, indent)
+    TriggerEvent('PSRCore:DebugSomething', tbl, indent)
 end
 
-function QBCore.ShowError(resource, msg)
+function PSRCore.ShowError(resource, msg)
     print('\x1b[31m[' .. resource .. ':ERROR]\x1b[0m ' .. msg)
 end
 
-function QBCore.ShowSuccess(resource, msg)
+function PSRCore.ShowSuccess(resource, msg)
     print('\x1b[32m[' .. resource .. ':LOG]\x1b[0m ' .. msg)
 end

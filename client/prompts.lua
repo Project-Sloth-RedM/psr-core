@@ -12,7 +12,7 @@ local function createPrompt(name, coords, key, text, options)
         Prompts[name].active = false
         Prompts[name].prompt = nil
     else
-        print('[qbr-core]  Prompt with name ' .. name .. ' already exists!')
+        print('[psr-core]  Prompt with name ' .. name .. ' already exists!')
     end
 end
 
@@ -26,7 +26,7 @@ local function createPromptGroup(group, label, coords, prompts)
         PromptGroups[group].created = false
         PromptGroups[group].prompts = prompts
     else
-        print('[qbr-core]  Prompt with name ' .. group .. ' already exists!')
+        print('[psr-core]  Prompt with name ' .. group .. ' already exists!')
     end
 end
 

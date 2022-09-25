@@ -1,33 +1,33 @@
--- Add or change (a) method(s) in the QBCore.Functions table
+-- Add or change (a) method(s) in the PSRCore.Functions table
 local function SetMethod(methodName, handler)
     if type(methodName) ~= "string" then
         return false, "invalid_method_name"
     end
 
-    QBCore.Functions[methodName] = handler
+    PSRCore.Functions[methodName] = handler
 
-    TriggerEvent('QBCore:Server:UpdateObject')
+    TriggerEvent('PSRCore:Server:UpdateObject')
 
     return true, "success"
 end
 
-QBCore.Functions.SetMethod = SetMethod
+PSRCore.Functions.SetMethod = SetMethod
 exports("SetMethod", SetMethod)
 
--- Add or change (a) field(s) in the QBCore table
+-- Add or change (a) field(s) in the PSRCore table
 local function SetField(fieldName, data)
     if type(fieldName) ~= "string" then
         return false, "invalid_field_name"
     end
 
-    QBCore[fieldName] = data
+    PSRCore[fieldName] = data
 
-    TriggerEvent('QBCore:Server:UpdateObject')
+    TriggerEvent('PSRCore:Server:UpdateObject')
 
     return true, "success"
 end
 
-QBCore.Functions.SetField = SetField
+PSRCore.Functions.SetField = SetField
 exports("SetField", SetField)
 
 -- Single add job function which should only be used if you planning on adding a single job
@@ -36,18 +36,18 @@ local function AddJob(jobName, job)
         return false, "invalid_job_name"
     end
 
-    if QBCore.Shared.Jobs[jobName] then
+    if PSRCore.Shared.Jobs[jobName] then
         return false, "job_exists"
     end
 
-    QBCore.Shared.Jobs[jobName] = job
+    PSRCore.Shared.Jobs[jobName] = job
 
-    TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Jobs', jobName, job)
-    TriggerEvent('QBCore:Server:UpdateObject')
+    TriggerClientEvent('PSRCore:Client:OnSharedUpdate', -1, 'Jobs', jobName, job)
+    TriggerEvent('PSRCore:Server:UpdateObject')
     return true, "success"
 end
 
-QBCore.Functions.AddJob = AddJob
+PSRCore.Functions.AddJob = AddJob
 exports('AddJob', AddJob)
 
 -- Multiple Add Jobs
@@ -64,23 +64,23 @@ local function AddJobs(jobs)
             break
         end
 
-        if QBCore.Shared.Jobs[key] then
+        if PSRCore.Shared.Jobs[key] then
             message = 'job_exists'
             shouldContinue = false
             errorItem = jobs[key]
             break
         end
 
-        QBCore.Shared.Jobs[key] = value
+        PSRCore.Shared.Jobs[key] = value
     end
 
     if not shouldContinue then return false, message, errorItem end
-    TriggerClientEvent('QBCore:Client:OnSharedUpdateMultiple', -1, 'Jobs', jobs)
-    TriggerEvent('QBCore:Server:UpdateObject')
+    TriggerClientEvent('PSRCore:Client:OnSharedUpdateMultiple', -1, 'Jobs', jobs)
+    TriggerEvent('PSRCore:Server:UpdateObject')
     return true, message, nil
 end
 
-QBCore.Functions.AddJobs = AddJobs
+PSRCore.Functions.AddJobs = AddJobs
 exports('AddJobs', AddJobs)
 
 -- Single Remove Job
@@ -89,18 +89,18 @@ local function RemoveJob(jobName)
         return false, "invalid_job_name"
     end
 
-    if not QBCore.Shared.Jobs[jobName] then
+    if not PSRCore.Shared.Jobs[jobName] then
         return false, "job_not_exists"
     end
 
-    QBCore.Shared.Jobs[jobName] = nil
+    PSRCore.Shared.Jobs[jobName] = nil
 
-    TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Jobs', jobName, nil)
-    TriggerEvent('QBCore:Server:UpdateObject')
+    TriggerClientEvent('PSRCore:Client:OnSharedUpdate', -1, 'Jobs', jobName, nil)
+    TriggerEvent('PSRCore:Server:UpdateObject')
     return true, "success"
 end
 
-QBCore.Functions.RemoveJob = RemoveJob
+PSRCore.Functions.RemoveJob = RemoveJob
 exports('RemoveJob', RemoveJob)
 
 -- Single Update Job
@@ -109,18 +109,18 @@ local function UpdateJob(jobName, job)
         return false, "invalid_job_name"
     end
 
-    if not QBCore.Shared.Jobs[jobName] then
+    if not PSRCore.Shared.Jobs[jobName] then
         return false, "job_not_exists"
     end
 
-    QBCore.Shared.Jobs[jobName] = job
+    PSRCore.Shared.Jobs[jobName] = job
 
-    TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Jobs', jobName, job)
-    TriggerEvent('QBCore:Server:UpdateObject')
+    TriggerClientEvent('PSRCore:Client:OnSharedUpdate', -1, 'Jobs', jobName, job)
+    TriggerEvent('PSRCore:Server:UpdateObject')
     return true, "success"
 end
 
-QBCore.Functions.UpdateJob = UpdateJob
+PSRCore.Functions.UpdateJob = UpdateJob
 exports('UpdateJob', UpdateJob)
 
 -- Single add item
@@ -129,18 +129,18 @@ local function AddItem(itemName, item)
         return false, "invalid_item_name"
     end
 
-    if QBCore.Shared.Items[itemName] then
+    if PSRCore.Shared.Items[itemName] then
         return false, "item_exists"
     end
 
-    QBCore.Shared.Items[itemName] = item
+    PSRCore.Shared.Items[itemName] = item
 
-    TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Items', itemName, item)
-    TriggerEvent('QBCore:Server:UpdateObject')
+    TriggerClientEvent('PSRCore:Client:OnSharedUpdate', -1, 'Items', itemName, item)
+    TriggerEvent('PSRCore:Server:UpdateObject')
     return true, "success"
 end
 
-QBCore.Functions.AddItem = AddItem
+PSRCore.Functions.AddItem = AddItem
 exports('AddItem', AddItem)
 
 -- Single update item
@@ -148,16 +148,16 @@ local function UpdateItem(itemName, item)
     if type(itemName) ~= "string" then
         return false, "invalid_item_name"
     end
-    if not QBCore.Shared.Items[itemName] then
+    if not PSRCore.Shared.Items[itemName] then
         return false, "item_not_exists"
     end
-    QBCore.Shared.Items[itemName] = item
-    TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Items', itemName, item)
-    TriggerEvent('QBCore:Server:UpdateObject')
+    PSRCore.Shared.Items[itemName] = item
+    TriggerClientEvent('PSRCore:Client:OnSharedUpdate', -1, 'Items', itemName, item)
+    TriggerEvent('PSRCore:Server:UpdateObject')
     return true, "success"
 end
 
-QBCore.Functions.UpdateItem = UpdateItem
+PSRCore.Functions.UpdateItem = UpdateItem
 exports('UpdateItem', UpdateItem)
 
 -- Multiple Add Items
@@ -174,23 +174,23 @@ local function AddItems(items)
             break
         end
 
-        if QBCore.Shared.Items[key] then
+        if PSRCore.Shared.Items[key] then
             message = "item_exists"
             shouldContinue = false
             errorItem = items[key]
             break
         end
 
-        QBCore.Shared.Items[key] = value
+        PSRCore.Shared.Items[key] = value
     end
 
     if not shouldContinue then return false, message, errorItem end
-    TriggerClientEvent('QBCore:Client:OnSharedUpdateMultiple', -1, 'Items', items)
-    TriggerEvent('QBCore:Server:UpdateObject')
+    TriggerClientEvent('PSRCore:Client:OnSharedUpdateMultiple', -1, 'Items', items)
+    TriggerEvent('PSRCore:Server:UpdateObject')
     return true, message, nil
 end
 
-QBCore.Functions.AddItems = AddItems
+PSRCore.Functions.AddItems = AddItems
 exports('AddItems', AddItems)
 
 -- Single Remove Item
@@ -199,18 +199,18 @@ local function RemoveItem(itemName)
         return false, "invalid_item_name"
     end
 
-    if not QBCore.Shared.Items[itemName] then
+    if not PSRCore.Shared.Items[itemName] then
         return false, "item_not_exists"
     end
 
-    QBCore.Shared.Items[itemName] = nil
+    PSRCore.Shared.Items[itemName] = nil
 
-    TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Items', itemName, nil)
-    TriggerEvent('QBCore:Server:UpdateObject')
+    TriggerClientEvent('PSRCore:Client:OnSharedUpdate', -1, 'Items', itemName, nil)
+    TriggerEvent('PSRCore:Server:UpdateObject')
     return true, "success"
 end
 
-QBCore.Functions.RemoveItem = RemoveItem
+PSRCore.Functions.RemoveItem = RemoveItem
 exports('RemoveItem', RemoveItem)
 
 -- Single Add Gang
@@ -219,18 +219,18 @@ local function AddGang(gangName, gang)
         return false, "invalid_gang_name"
     end
 
-    if QBCore.Shared.Gangs[gangName] then
+    if PSRCore.Shared.Gangs[gangName] then
         return false, "gang_exists"
     end
 
-    QBCore.Shared.Gangs[gangName] = gang
+    PSRCore.Shared.Gangs[gangName] = gang
 
-    TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Gangs', gangName, gang)
-    TriggerEvent('QBCore:Server:UpdateObject')
+    TriggerClientEvent('PSRCore:Client:OnSharedUpdate', -1, 'Gangs', gangName, gang)
+    TriggerEvent('PSRCore:Server:UpdateObject')
     return true, "success"
 end
 
-QBCore.Functions.AddGang = AddGang
+PSRCore.Functions.AddGang = AddGang
 exports('AddGang', AddGang)
 
 -- Multiple Add Gangs
@@ -247,23 +247,23 @@ local function AddGangs(gangs)
             break
         end
 
-        if QBCore.Shared.Gangs[key] then
+        if PSRCore.Shared.Gangs[key] then
             message = "gang_exists"
             shouldContinue = false
             errorItem = gangs[key]
             break
         end
 
-        QBCore.Shared.Gangs[key] = value
+        PSRCore.Shared.Gangs[key] = value
     end
 
     if not shouldContinue then return false, message, errorItem end
-    TriggerClientEvent('QBCore:Client:OnSharedUpdateMultiple', -1, 'Gangs', gangs)
-    TriggerEvent('QBCore:Server:UpdateObject')
+    TriggerClientEvent('PSRCore:Client:OnSharedUpdateMultiple', -1, 'Gangs', gangs)
+    TriggerEvent('PSRCore:Server:UpdateObject')
     return true, message, nil
 end
 
-QBCore.Functions.AddGangs = AddGangs
+PSRCore.Functions.AddGangs = AddGangs
 exports('AddGangs', AddGangs)
 
 -- Single Remove Gang
@@ -272,18 +272,18 @@ local function RemoveGang(gangName)
         return false, "invalid_gang_name"
     end
 
-    if not QBCore.Shared.Gangs[gangName] then
+    if not PSRCore.Shared.Gangs[gangName] then
         return false, "gang_not_exists"
     end
 
-    QBCore.Shared.Gangs[gangName] = nil
+    PSRCore.Shared.Gangs[gangName] = nil
 
-    TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Gangs', gangName, nil)
-    TriggerEvent('QBCore:Server:UpdateObject')
+    TriggerClientEvent('PSRCore:Client:OnSharedUpdate', -1, 'Gangs', gangName, nil)
+    TriggerEvent('PSRCore:Server:UpdateObject')
     return true, "success"
 end
 
-QBCore.Functions.RemoveGang = RemoveGang
+PSRCore.Functions.RemoveGang = RemoveGang
 exports('RemoveGang', RemoveGang)
 
 -- Single Update Gang
@@ -292,44 +292,44 @@ local function UpdateGang(gangName, gang)
         return false, "invalid_gang_name"
     end
 
-    if not QBCore.Shared.Gangs[gangName] then
+    if not PSRCore.Shared.Gangs[gangName] then
         return false, "gang_not_exists"
     end
 
-    QBCore.Shared.Gangs[gangName] = gang
+    PSRCore.Shared.Gangs[gangName] = gang
 
-    TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Gangs', gangName, gang)
-    TriggerEvent('QBCore:Server:UpdateObject')
+    TriggerClientEvent('PSRCore:Client:OnSharedUpdate', -1, 'Gangs', gangName, gang)
+    TriggerEvent('PSRCore:Server:UpdateObject')
     return true, "success"
 end
 
-QBCore.Functions.UpdateGang = UpdateGang
+PSRCore.Functions.UpdateGang = UpdateGang
 exports('UpdateGang', UpdateGang)
 
 local function GetCoreVersion(InvokingResource)
     local resourceVersion = GetResourceMetadata(GetCurrentResourceName(), 'version')
     if InvokingResource and InvokingResource ~= '' then
-        print(("%s called qbcore version check: %s"):format(InvokingResource or 'Unknown Resource', resourceVersion))
+        print(("%s called psrcore version check: %s"):format(InvokingResource or 'Unknown Resource', resourceVersion))
     end
     return resourceVersion
 end
 
-QBCore.Functions.GetCoreVersion = GetCoreVersion
+PSRCore.Functions.GetCoreVersion = GetCoreVersion
 exports('GetCoreVersion', GetCoreVersion)
 
 local function ExploitBan(playerId, origin)
     local name = GetPlayerName(playerId)
     MySQL.insert('INSERT INTO bans (name, license, discord, ip, reason, expire, bannedby) VALUES (?, ?, ?, ?, ?, ?, ?)', {
         name,
-        QBCore.Functions.GetIdentifier(playerId, 'license'),
-        QBCore.Functions.GetIdentifier(playerId, 'discord'),
-        QBCore.Functions.GetIdentifier(playerId, 'ip'),
+        PSRCore.Functions.GetIdentifier(playerId, 'license'),
+        PSRCore.Functions.GetIdentifier(playerId, 'discord'),
+        PSRCore.Functions.GetIdentifier(playerId, 'ip'),
         origin,
         2147483647,
         'Anti Cheat'
     })
-    DropPlayer(playerId, Lang:t('info.exploit_banned', {discord = QBCore.Config.Server.Discord}))
-    TriggerEvent("qb-log:server:CreateLog", "anticheat", "Anti-Cheat", "red", name .. " has been banned for exploiting " .. origin, true)
+    DropPlayer(playerId, Lang:t('info.exploit_banned', {discord = PSRCore.Config.Server.Discord}))
+    TriggerEvent("psr-log:server:CreateLog", "anticheat", "Anti-Cheat", "red", name .. " has been banned for exploiting " .. origin, true)
 end
 
 exports('ExploitBan', ExploitBan)

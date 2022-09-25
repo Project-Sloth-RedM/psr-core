@@ -38,19 +38,19 @@ local function keyPressed()
     end)
 end
 
-RegisterNetEvent('qb-core:client:DrawText', function(text, position)
+RegisterNetEvent('psr-core:client:DrawText', function(text, position)
     drawText(text, position)
 end)
 
-RegisterNetEvent('qb-core:client:ChangeText', function(text, position)
+RegisterNetEvent('psr-core:client:ChangeText', function(text, position)
     changeText(text, position)
 end)
 
-RegisterNetEvent('qb-core:client:HideText', function()
+RegisterNetEvent('psr-core:client:HideText', function()
     hideText()
 end)
 
-RegisterNetEvent('qb-core:client:KeyPressed', function()
+RegisterNetEvent('psr-core:client:KeyPressed', function()
     keyPressed()
 end)
 

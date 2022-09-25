@@ -1,6 +1,7 @@
-QBShared = QBShared or {}
-QBShared.ForceJobDefaultDutyAtLogin = true -- true: Force duty state to jobdefaultDuty | false: set duty state from database last saved
-QBShared.Jobs = {
+PSRShared = PSRShared or {}
+PSRShared.ForceJobDefaultDutyAtLogin = true -- true: Force duty state to jobdefaultDuty | false: set duty state from database last saved
+
+PSRShared.Jobs = {
 	['unemployed'] = {
 		label = 'Civilian',
 		defaultDuty = true,

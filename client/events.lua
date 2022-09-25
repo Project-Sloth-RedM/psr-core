@@ -1,46 +1,46 @@
 -- Player load and unload handling
 -- New method for checking if logged in across all scripts (optional)
 -- if LocalPlayer.state['isLoggedIn'] then
-RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
+RegisterNetEvent('PSRCore:Client:OnPlayerLoaded', function()
     ShutdownLoadingScreenNui()
     LocalPlayer.state:set('isLoggedIn', true, false)
-	    if QBConfig.Player.RevealMap then
+	    if PSRConfig.Player.RevealMap then
 		SetMinimapHideFow(true)
 	end
-    --if not QBConfig.Server.PVP then return end
+    --if not PSRConfig.Server.PVP then return end
     --SetCanAttackFriendly(PlayerPedId(), true, false)
     --NetworkSetFriendlyFireOption(true)
 end)
 
-RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
+RegisterNetEvent('PSRCore:Client:OnPlayerUnload', function()
     LocalPlayer.state:set('isLoggedIn', false, false)
 end)
 
-RegisterNetEvent('QBCore:Client:PvpHasToggled', function(pvp_state)
+RegisterNetEvent('PSRCore:Client:PvpHasToggled', function(pvp_state)
     --SetCanAttackFriendly(PlayerPedId(), pvp_state, false)
     --NetworkSetFriendlyFireOption(pvp_state)
 end)
 
 -- Teleport Commands
 
-RegisterNetEvent('QBCore:Command:TeleportToPlayer', function(coords)
+RegisterNetEvent('PSRCore:Command:TeleportToPlayer', function(coords)
     local ped = PlayerPedId()
     SetPedCoordsKeepVehicle(ped, coords.x, coords.y, coords.z)
 end)
 
-RegisterNetEvent('QBCore:Command:TeleportToCoords', function(x, y, z, h)
+RegisterNetEvent('PSRCore:Command:TeleportToCoords', function(x, y, z, h)
     local ped = PlayerPedId()
     SetPedCoordsKeepVehicle(ped, x, y, z)
     SetEntityHeading(ped, h or GetEntityHeading(ped))
 end)
 
-RegisterNetEvent('QBCore:Command:GoToMarker', function()
+RegisterNetEvent('PSRCore:Command:GoToMarker', function()
     local PlayerPedId = PlayerPedId
     local GetEntityCoords = GetEntityCoords
     local GetGroundZAndNormalFor_3dCoord = GetGroundZAndNormalFor_3dCoord
 
     if not IsWaypointActive() then
-        QBCore.Functions.Notify(Lang:t("error.no_waypoint"), "error", 5000)
+        PSRCore.Functions.Notify(Lang:t("error.no_waypoint"), "error", 5000)
         return 'marker'
     end
 
@@ -109,17 +109,17 @@ RegisterNetEvent('QBCore:Command:GoToMarker', function()
         -- If we can't find the coords, set the coords to the old ones.
         -- We don't unpack them before since they aren't in a loop and only called once.
         SetEntityCoords(ped, oldCoords['x'], oldCoords['y'], oldCoords['z'] - 1.0)
-        QBCore.Functions.Notify(Lang:t("error.tp_error"), "error", 5000)
+        PSRCore.Functions.Notify(Lang:t("error.tp_error"), "error", 5000)
     end
 
     -- If Z coord was found, set coords in found coords.
     SetEntityCoords(ped, x, y, groundZ)
-    QBCore.Functions.Notify(Lang:t("success.teleported_waypoint"), "success", 5000)
+    PSRCore.Functions.Notify(Lang:t("success.teleported_waypoint"), "success", 5000)
 end)
 
 -- Vehicle Commands
 
-RegisterNetEvent('QBCore:Command:SpawnVehicle', function(vehName)
+RegisterNetEvent('PSRCore:Command:SpawnVehicle', function(vehName)
     local ped = PlayerPedId()
     local hash = GetHashKey(vehName)
     local veh = GetVehiclePedIsUsing(ped)
@@ -138,7 +138,7 @@ RegisterNetEvent('QBCore:Command:SpawnVehicle', function(vehName)
     SetModelAsNoLongerNeeded(hash)
 end)
 
-RegisterNetEvent('QBCore:Command:DeleteVehicle', function()
+RegisterNetEvent('PSRCore:Command:DeleteVehicle', function()
     local ped = PlayerPedId()
     local veh = GetVehiclePedIsUsing(ped)
     if veh ~= 0 then
@@ -158,38 +158,38 @@ end)
 
 -- Other stuff
 
-RegisterNetEvent('QBCore:Player:SetPlayerData', function(val)
-    QBCore.PlayerData = val
+RegisterNetEvent('PSRCore:Player:SetPlayerData', function(val)
+    PSRCore.PlayerData = val
 end)
 
-RegisterNetEvent('QBCore:Player:UpdatePlayerData', function()
-    TriggerServerEvent('QBCore:UpdatePlayer')
+RegisterNetEvent('PSRCore:Player:UpdatePlayerData', function()
+    TriggerServerEvent('PSRCore:UpdatePlayer')
 end)
 
-RegisterNetEvent('QBCore:Notify', function(text, type, length)
-    QBCore.Functions.Notify(text, type, length)
+RegisterNetEvent('PSRCore:Notify', function(text, type, length)
+    PSRCore.Functions.Notify(text, type, length)
 end)
 
 -- This event is exploitable and should not be used. It has been deprecated, and will be removed soon.
-RegisterNetEvent('QBCore:Client:UseItem', function(item)
-    QBCore.Debug(string.format("%s triggered QBCore:Client:UseItem by ID %s with the following data. This event is deprecated due to exploitation, and will be removed soon. Check qb-inventory for the right use on this event.", GetInvokingResource(), GetPlayerServerId(PlayerId())))
-    QBCore.Debug(item)
+RegisterNetEvent('PSRCore:Client:UseItem', function(item)
+    PSRCore.Debug(string.format("%s triggered PSRCore:Client:UseItem by ID %s with the following data. This event is deprecated due to exploitation, and will be removed soon. Check psr-inventory for the right use on this event.", GetInvokingResource(), GetPlayerServerId(PlayerId())))
+    PSRCore.Debug(item)
 end)
 
 -- Callback Events --
 
 -- Client Callback
-RegisterNetEvent('QBCore:Client:TriggerClientCallback', function(name, ...)
-    QBCore.Functions.TriggerClientCallback(name, function(...)
-        TriggerServerEvent('QBCore:Server:TriggerClientCallback', name, ...)
+RegisterNetEvent('PSRCore:Client:TriggerClientCallback', function(name, ...)
+    PSRCore.Functions.TriggerClientCallback(name, function(...)
+        TriggerServerEvent('PSRCore:Server:TriggerClientCallback', name, ...)
     end, ...)
 end)
 
 -- Server Callback
-RegisterNetEvent('QBCore:Client:TriggerCallback', function(name, ...)
-    if QBCore.ServerCallbacks[name] then
-        QBCore.ServerCallbacks[name](...)
-        QBCore.ServerCallbacks[name] = nil
+RegisterNetEvent('PSRCore:Client:TriggerCallback', function(name, ...)
+    if PSRCore.ServerCallbacks[name] then
+        PSRCore.ServerCallbacks[name](...)
+        PSRCore.ServerCallbacks[name] = nil
     end
 end)
 
@@ -213,7 +213,7 @@ local function Draw3DText(coords, str)
     end
 end
 
-RegisterNetEvent('QBCore:Command:ShowMe3D', function(senderId, msg)
+RegisterNetEvent('PSRCore:Command:ShowMe3D', function(senderId, msg)
     local sender = GetPlayerFromServerId(senderId)
     CreateThread(function()
         local displayTime = 5000 + GetGameTimer()
@@ -227,14 +227,14 @@ RegisterNetEvent('QBCore:Command:ShowMe3D', function(senderId, msg)
 end)
 
 -- Listen to Shared being updated
-RegisterNetEvent('QBCore:Client:OnSharedUpdate', function(tableName, key, value)
-    QBCore.Shared[tableName][key] = value
-    TriggerEvent('QBCore:Client:UpdateObject')
+RegisterNetEvent('PSRCore:Client:OnSharedUpdate', function(tableName, key, value)
+    PSRCore.Shared[tableName][key] = value
+    TriggerEvent('PSRCore:Client:UpdateObject')
 end)
 
-RegisterNetEvent('QBCore:Client:OnSharedUpdateMultiple', function(tableName, values)
+RegisterNetEvent('PSRCore:Client:OnSharedUpdateMultiple', function(tableName, values)
     for key, value in pairs(values) do
-        QBCore.Shared[tableName][key] = value
+        PSRCore.Shared[tableName][key] = value
     end
-    TriggerEvent('QBCore:Client:UpdateObject')
+    TriggerEvent('PSRCore:Client:UpdateObject')
 end)

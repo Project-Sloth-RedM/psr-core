@@ -1,6 +1,6 @@
-QBShared = QBShared or {}
+PSRShared = PSRShared or {}
 
-QBShared.Weapons = {
+PSRShared.Weapons = {
 	-- revoler
 	[`WEAPON_REVOLVER_CATTLEMAN`] 					= {['name'] = 'weapon_revolver_cattleman',				['attachPoint'] = 2, 	['label'] = 'Colt M1873 Single Action',			['weight'] = 1000,	['type'] = 'weapon', 		['ammotype'] = 'AMMO_REVOLVER', 			['image'] = 'weapon_revolver01.png',			['unique'] = true,	['useable'] = true,	['level'] = 0,		['description'] = 'Placeholder'},
 	[`WEAPON_REVOLVER_CATTLEMAN_MEXICAN`] 			= {['name'] = 'weapon_revolver_cattleman_mexican',		['attachPoint'] = 2, 	['label'] = 'Steel Colt M1873',					['weight'] = 1000,	['type'] = 'weapon', 		['ammotype'] = 'AMMO_REVOLVER', 			['image'] = 'weapon_revolver02.png',			['unique'] = true,	['useable'] = true,	['level'] = 0,		['description'] = 'Placeholder'},

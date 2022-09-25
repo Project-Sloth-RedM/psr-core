@@ -9,12 +9,12 @@ end)
 
 AddEventHandler('playerDropped', function(reason)
     local src = source
-    if not QBCore.Players[src] then return end
-    local Player = QBCore.Players[src]
-    TriggerEvent('qb-log:server:CreateLog', 'joinleave', 'Dropped', 'red', '**' .. GetPlayerName(src) .. '** (' .. Player.PlayerData.license .. ') left..' ..'\n **Reason:** ' .. reason)
+    if not PSRCore.Players[src] then return end
+    local Player = PSRCore.Players[src]
+    TriggerEvent('psr-log:server:CreateLog', 'joinleave', 'Dropped', 'red', '**' .. GetPlayerName(src) .. '** (' .. Player.PlayerData.license .. ') left..' ..'\n **Reason:** ' .. reason)
     Player.Functions.Save()
-    QBCore.Player_Buckets[Player.PlayerData.license] = nil
-    QBCore.Players[src] = nil
+    PSRCore.Player_Buckets[Player.PlayerData.license] = nil
+    PSRCore.Players[src] = nil
 end)
 
 -- Player Connecting
@@ -28,9 +28,9 @@ local function onPlayerConnecting(name, _, deferrals)
     -- Mandatory wait
     Wait(0)
 
-    if QBCore.Config.Server.Closed then
-        if not IsPlayerAceAllowed(src, 'qbadmin.join') then
-            deferrals.done(QBCore.Config.Server.ClosedReason)
+    if PSRCore.Config.Server.Closed then
+        if not IsPlayerAceAllowed(src, 'psradmin.join') then
+            deferrals.done(PSRCore.Config.Server.ClosedReason)
         end
     end
 
@@ -48,9 +48,9 @@ local function onPlayerConnecting(name, _, deferrals)
 
     deferrals.update(string.format(Lang:t('info.checking_whitelisted'), name))
 
-    local isBanned, Reason = QBCore.Functions.IsPlayerBanned(src)
-    local isLicenseAlreadyInUse = QBCore.Functions.IsLicenseInUse(license)
-    local isWhitelist, whitelisted = QBCore.Config.Server.Whitelist, QBCore.Functions.IsWhitelisted(src)
+    local isBanned, Reason = PSRCore.Functions.IsPlayerBanned(src)
+    local isLicenseAlreadyInUse = PSRCore.Functions.IsLicenseInUse(license)
+    local isWhitelist, whitelisted = PSRCore.Config.Server.Whitelist, PSRCore.Functions.IsWhitelisted(src)
 
     Wait(2500)
 
@@ -60,7 +60,7 @@ local function onPlayerConnecting(name, _, deferrals)
       deferrals.done(Lang:t('error.no_valid_license'))
     elseif isBanned then
         deferrals.done(Reason)
-    elseif isLicenseAlreadyInUse and QBCore.Config.Server.CheckDuplicateLicense then
+    elseif isLicenseAlreadyInUse and PSRCore.Config.Server.CheckDuplicateLicense then
         deferrals.done(Lang:t('error.duplicate_license'))
     elseif isWhitelist and not whitelisted then
       deferrals.done(Lang:t('error.not_whitelisted'))
@@ -75,57 +75,57 @@ AddEventHandler('playerConnecting', onPlayerConnecting)
 
 -- Open & Close Server (prevents players from joining)
 
-RegisterNetEvent('QBCore:Server:CloseServer', function(reason)
+RegisterNetEvent('PSRCore:Server:CloseServer', function(reason)
     local src = source
-    if QBCore.Functions.HasPermission(src, 'admin') then
+    if PSRCore.Functions.HasPermission(src, 'admin') then
         reason = reason or 'No reason specified'
-        QBCore.Config.Server.Closed = true
-        QBCore.Config.Server.ClosedReason = reason
-        for k in pairs(QBCore.Players) do
-            if not QBCore.Functions.HasPermission(k, QBCore.Config.Server.WhitelistPermission) then
-                QBCore.Functions.Kick(k, reason, nil, nil)
+        PSRCore.Config.Server.Closed = true
+        PSRCore.Config.Server.ClosedReason = reason
+        for k in pairs(PSRCore.Players) do
+            if not PSRCore.Functions.HasPermission(k, PSRCore.Config.Server.WhitelistPermission) then
+                PSRCore.Functions.Kick(k, reason, nil, nil)
             end
         end
     else
-        QBCore.Functions.Kick(src, Lang:t("error.no_permission"), nil, nil)
+        PSRCore.Functions.Kick(src, Lang:t("error.no_permission"), nil, nil)
     end
 end)
 
-RegisterNetEvent('QBCore:Server:OpenServer', function()
+RegisterNetEvent('PSRCore:Server:OpenServer', function()
     local src = source
-    if QBCore.Functions.HasPermission(src, 'admin') then
-        QBCore.Config.Server.Closed = false
+    if PSRCore.Functions.HasPermission(src, 'admin') then
+        PSRCore.Config.Server.Closed = false
     else
-        QBCore.Functions.Kick(src, Lang:t("error.no_permission"), nil, nil)
+        PSRCore.Functions.Kick(src, Lang:t("error.no_permission"), nil, nil)
     end
 end)
 
 -- Callback Events --
 
 -- Client Callback
-RegisterNetEvent('QBCore:Server:TriggerClientCallback', function(name, ...)
-    if QBCore.ClientCallbacks[name] then
-        QBCore.ClientCallbacks[name](...)
-        QBCore.ClientCallbacks[name] = nil
+RegisterNetEvent('PSRCore:Server:TriggerClientCallback', function(name, ...)
+    if PSRCore.ClientCallbacks[name] then
+        PSRCore.ClientCallbacks[name](...)
+        PSRCore.ClientCallbacks[name] = nil
     end
 end)
 
 -- Server Callback
-RegisterNetEvent('QBCore:Server:TriggerCallback', function(name, ...)
+RegisterNetEvent('PSRCore:Server:TriggerCallback', function(name, ...)
     local src = source
-    QBCore.Functions.TriggerCallback(name, src, function(...)
-        TriggerClientEvent('QBCore:Client:TriggerCallback', src, name, ...)
+    PSRCore.Functions.TriggerCallback(name, src, function(...)
+        TriggerClientEvent('PSRCore:Client:TriggerCallback', src, name, ...)
     end, ...)
 end)
 
 -- Player
 
-RegisterNetEvent('QBCore:UpdatePlayer', function()
+RegisterNetEvent('PSRCore:UpdatePlayer', function()
     local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
+    local Player = PSRCore.Functions.GetPlayer(src)
     if not Player then return end
-    local newHunger = Player.PlayerData.metadata['hunger'] - QBCore.Config.Player.HungerRate
-    local newThirst = Player.PlayerData.metadata['thirst'] - QBCore.Config.Player.ThirstRate
+    local newHunger = Player.PlayerData.metadata['hunger'] - PSRCore.Config.Player.HungerRate
+    local newThirst = Player.PlayerData.metadata['thirst'] - PSRCore.Config.Player.ThirstRate
     if newHunger <= 0 then
         newHunger = 0
     end
@@ -138,9 +138,9 @@ RegisterNetEvent('QBCore:UpdatePlayer', function()
     Player.Functions.Save()
 end)
 
-RegisterNetEvent('QBCore:Server:SetMetaData', function(meta, data)
+RegisterNetEvent('PSRCore:Server:SetMetaData', function(meta, data)
     local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
+    local Player = PSRCore.Functions.GetPlayer(src)
     if not Player then return end
     if meta == 'hunger' or meta == 'thirst' then
         if data > 100 then
@@ -151,56 +151,56 @@ RegisterNetEvent('QBCore:Server:SetMetaData', function(meta, data)
     TriggerClientEvent('hud:client:UpdateNeeds', src, Player.PlayerData.metadata['hunger'], Player.PlayerData.metadata['thirst'])
 end)
 
-RegisterNetEvent('QBCore:ToggleDuty', function()
+RegisterNetEvent('PSRCore:ToggleDuty', function()
     local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
+    local Player = PSRCore.Functions.GetPlayer(src)
     if not Player then return end
     if Player.PlayerData.job.onduty then
         Player.Functions.SetJobDuty(false)
-        TriggerClientEvent('QBCore:Notify', src, Lang:t('info.off_duty'))
+        TriggerClientEvent('PSRCore:Notify', src, Lang:t('info.off_duty'))
     else
         Player.Functions.SetJobDuty(true)
-        TriggerClientEvent('QBCore:Notify', src, Lang:t('info.on_duty'))
+        TriggerClientEvent('PSRCore:Notify', src, Lang:t('info.on_duty'))
     end
-    TriggerClientEvent('QBCore:Client:SetDuty', src, Player.PlayerData.job.onduty)
+    TriggerClientEvent('PSRCore:Client:SetDuty', src, Player.PlayerData.job.onduty)
 end)
 
 -- Items
 
 -- This event is exploitable and should not be used. It has been deprecated, and will be removed soon.
-RegisterNetEvent('QBCore:Server:UseItem', function(item)
-    print(string.format("%s triggered QBCore:Server:UseItem by ID %s with the following data. This event is deprecated due to exploitation, and will be removed soon. Check qb-inventory for the right use on this event.", GetInvokingResource(), source))
-    QBCore.Debug(item)
+RegisterNetEvent('PSRCore:Server:UseItem', function(item)
+    print(string.format("%s triggered PSRCore:Server:UseItem by ID %s with the following data. This event is deprecated due to exploitation, and will be removed soon. Check qb-inventory for the right use on this event.", GetInvokingResource(), source))
+    PSRCore.Debug(item)
 end)
 
 -- This event is exploitable and should not be used. It has been deprecated, and will be removed soon. function(itemName, amount, slot)
-RegisterNetEvent('QBCore:Server:RemoveItem', function(itemName, amount)
+RegisterNetEvent('PSRCore:Server:RemoveItem', function(itemName, amount)
     local src = source
-    print(string.format("%s triggered QBCore:Server:RemoveItem by ID %s for %s %s. This event is deprecated due to exploitation, and will be removed soon. Adjust your events accordingly to do this server side with player functions.", GetInvokingResource(), src, amount, itemName))
+    print(string.format("%s triggered PSRCore:Server:RemoveItem by ID %s for %s %s. This event is deprecated due to exploitation, and will be removed soon. Adjust your events accordingly to do this server side with player functions.", GetInvokingResource(), src, amount, itemName))
 end)
 
 -- This event is exploitable and should not be used. It has been deprecated, and will be removed soon. function(itemName, amount, slot, info)
-RegisterNetEvent('QBCore:Server:AddItem', function(itemName, amount)
+RegisterNetEvent('PSRCore:Server:AddItem', function(itemName, amount)
     local src = source
-    print(string.format("%s triggered QBCore:Server:AddItem by ID %s for %s %s. This event is deprecated due to exploitation, and will be removed soon. Adjust your events accordingly to do this server side with player functions.", GetInvokingResource(), src, amount, itemName))
+    print(string.format("%s triggered PSRCore:Server:AddItem by ID %s for %s %s. This event is deprecated due to exploitation, and will be removed soon. Adjust your events accordingly to do this server side with player functions.", GetInvokingResource(), src, amount, itemName))
 end)
 
--- Non-Chat Command Calling (ex: qb-adminmenu)
+-- Non-Chat Command Calling (ex: psr-adminmenu)
 
-RegisterNetEvent('QBCore:CallCommand', function(command, args)
+RegisterNetEvent('PSRCore:CallCommand', function(command, args)
     local src = source
-    if not QBCore.Commands.List[command] then return end
-    local Player = QBCore.Functions.GetPlayer(src)
+    if not PSRCore.Commands.List[command] then return end
+    local Player = PSRCore.Functions.GetPlayer(src)
     if not Player then return end
-    local hasPerm = QBCore.Functions.HasPermission(src, "command."..QBCore.Commands.List[command].name)
+    local hasPerm = PSRCore.Functions.HasPermission(src, "command."..PSRCore.Commands.List[command].name)
     if hasPerm then
-        if QBCore.Commands.List[command].argsrequired and #QBCore.Commands.List[command].arguments ~= 0 and not args[#QBCore.Commands.List[command].arguments] then
-            TriggerClientEvent('QBCore:Notify', src, Lang:t('error.missing_args2'), 'error')
+        if PSRCore.Commands.List[command].argsrequired and #PSRCore.Commands.List[command].arguments ~= 0 and not args[#PSRCore.Commands.List[command].arguments] then
+            TriggerClientEvent('PSRCore:Notify', src, Lang:t('error.missing_args2'), 'error')
         else
-            QBCore.Commands.List[command].callback(src, args)
+            PSRCore.Commands.List[command].callback(src, args)
         end
     else
-        TriggerClientEvent('QBCore:Notify', src, Lang:t('error.no_access'), 'error')
+        TriggerClientEvent('PSRCore:Notify', src, Lang:t('error.no_access'), 'error')
     end
 end)
 
@@ -208,7 +208,7 @@ end)
 -- Vehicle server-side spawning callback (netId)
 -- use the netid on the client with the NetworkGetEntityFromNetworkId native
 -- convert it to a vehicle via the NetToVeh native
-QBCore.Functions.CreateCallback('QBCore:Server:SpawnVehicle', function(source, cb, model, coords, warp)
+PSRCore.Functions.CreateCallback('PSRCore:Server:SpawnVehicle', function(source, cb, model, coords, warp)
     local ped = GetPlayerPed(source)
     model = type(model) == 'string' and joaat(model) or model
     if not coords then coords = GetEntityCoords(ped) end
@@ -228,7 +228,7 @@ end)
 -- vehicle server-side spawning callback (netId)
 -- use the netid on the client with the NetworkGetEntityFromNetworkId native
 -- convert it to a vehicle via the NetToVeh native
-QBCore.Functions.CreateCallback('QBCore:Server:CreateVehicle', function(source, cb, model, coords, warp)
+PSRCore.Functions.CreateCallback('PSRCore:Server:CreateVehicle', function(source, cb, model, coords, warp)
     model = type(model) == 'string' and GetHashKey(model) or model
     if not coords then coords = GetEntityCoords(GetPlayerPed(source)) end
     local CreateAutomobile = GetHashKey("CREATE_AUTOMOBILE")
@@ -237,7 +237,3 @@ QBCore.Functions.CreateCallback('QBCore:Server:CreateVehicle', function(source, 
     if warp then TaskWarpPedIntoVehicle(GetPlayerPed(source), veh, -1) end
     cb(NetworkGetNetworkIdFromEntity(veh))
 end)
-
---QBCore.Functions.CreateCallback('QBCore:HasItem', function(source, cb, items, amount)
--- https://github.com/qbcore-framework/qb-inventory/blob/e4ef156d93dd1727234d388c3f25110c350b3bcf/server/main.lua#L2066
---end)

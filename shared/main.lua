@@ -1,4 +1,4 @@
-QBShared = QBShared or {}
+PSRShared = PSRShared or {}
 
 local StringCharset = {}
 local NumberCharset = {}
@@ -7,17 +7,17 @@ for i = 48, 57 do NumberCharset[#NumberCharset + 1] = string.char(i) end
 for i = 65, 90 do StringCharset[#StringCharset + 1] = string.char(i) end
 for i = 97, 122 do StringCharset[#StringCharset + 1] = string.char(i) end
 
-function QBShared.RandomStr(length)
+function PSRShared.RandomStr(length)
     if length <= 0 then return '' end
-    return QBShared.RandomStr(length - 1) .. StringCharset[math.random(1, #StringCharset)]
+    return PSRShared.RandomStr(length - 1) .. StringCharset[math.random(1, #StringCharset)]
 end
 
-function QBShared.RandomInt(length)
+function PSRShared.RandomInt(length)
     if length <= 0 then return '' end
-    return QBShared.RandomInt(length - 1) .. NumberCharset[math.random(1, #NumberCharset)]
+    return PSRShared.RandomInt(length - 1) .. NumberCharset[math.random(1, #NumberCharset)]
 end
 
-function QBShared.SplitStr(str, delimiter)
+function PSRShared.SplitStr(str, delimiter)
     local result = {}
     local from = 1
     local delim_from, delim_to = string.find(str, delimiter, from)
@@ -30,39 +30,39 @@ function QBShared.SplitStr(str, delimiter)
     return result
 end
 
-function QBShared.Trim(value)
+function PSRShared.Trim(value)
     if not value then return nil end
     return (string.gsub(value, '^%s*(.-)%s*$', '%1'))
 end
 
-function QBShared.FirstToUpper(value)
+function PSRShared.FirstToUpper(value)
     if not value then return nil end
     return (value:gsub("^%l", string.upper))
 end
 
-function QBShared.Round(value, numDecimalPlaces)
+function PSRShared.Round(value, numDecimalPlaces)
     if not numDecimalPlaces then return math.floor(value + 0.5) end
     local power = 10 ^ numDecimalPlaces
     return math.floor((value * power) + 0.5) / (power)
 end
 
-function QBShared.ChangeVehicleExtra(vehicle, extra, enable)
+function PSRShared.ChangeVehicleExtra(vehicle, extra, enable)
     if DoesExtraExist(vehicle, extra) then
         if enable then
             SetVehicleExtra(vehicle, extra, false)
             if not IsVehicleExtraTurnedOn(vehicle, extra) then
-                QBShared.ChangeVehicleExtra(vehicle, extra, enable)
+                PSRShared.ChangeVehicleExtra(vehicle, extra, enable)
             end
         else
             SetVehicleExtra(vehicle, extra, true)
             if IsVehicleExtraTurnedOn(vehicle, extra) then
-                QBShared.ChangeVehicleExtra(vehicle, extra, enable)
+                PSRShared.ChangeVehicleExtra(vehicle, extra, enable)
             end
         end
     end
 end
 
-function QBShared.SetDefaultVehicleExtras(vehicle, config)
+function PSRShared.SetDefaultVehicleExtras(vehicle, config)
     -- Clear Extras
     for i = 1, 20 do
         if DoesExtraExist(vehicle, i) then
@@ -71,16 +71,16 @@ function QBShared.SetDefaultVehicleExtras(vehicle, config)
     end
 
     for id, enabled in pairs(config) do
-        QBShared.ChangeVehicleExtra(vehicle, tonumber(id), type(enabled) == 'boolean' and enabled or true)
+        PSRShared.ChangeVehicleExtra(vehicle, tonumber(id), type(enabled) == 'boolean' and enabled or true)
     end
 end
 
-QBShared.StarterItems = {
+PSRShared.StarterItems = {
     ['bread'] 			= { amount = 10, item = 'bread' },
     ['water_bottle'] 	= { amount = 10, item = 'water_bottle' },
 }
 
-QBShared.MaleNoGloves = {
+PSRShared.MaleNoGloves = {
     [0] = true,
     [1] = true,
     [2] = true,
@@ -118,7 +118,7 @@ QBShared.MaleNoGloves = {
     [132] = true
 }
 
-QBShared.FemaleNoGloves = {
+PSRShared.FemaleNoGloves = {
     [0] = true,
     [1] = true,
     [2] = true,

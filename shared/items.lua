@@ -1,5 +1,6 @@
-QBShared = QBShared or {}
-QBShared.Items = {
+PSRShared = PSRShared or {}
+
+PSRShared.Items = {
 	-- Items
  	['water_bottle'] 			= {['name'] = 'water_bottle', 			['label'] = 'Bottle of Water', 				['weight'] = 500, 		['type'] = 'item', 				['image'] = 'generic_bottle.png', 			['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,	  ['combinable'] = nil,		['level'] = 0,		['description'] = 'For all the thirsty out there'},
  	['bread'] 					= {['name'] = 'bread', 					['label'] = 'Bread Roll', 					['weight'] = 125, 		['type'] = 'item', 				['image'] = 'consumable_bread_roll.png', 	['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,	  ['combinable'] = nil,		['level'] = 0,		['description'] = 'A small bread roll'},
