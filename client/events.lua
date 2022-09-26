@@ -23,15 +23,14 @@ end)
 
 -- Teleport Commands
 
-RegisterNetEvent('PSRCore:Command:TeleportToPlayer', function(coords)
+RegisterNetEvent('PSRCore:Command:TeleportToPlayer', function(coords) -- #MoneSuer | Fixed Teleport Command
     local ped = PlayerPedId()
-    SetPedCoordsKeepVehicle(ped, coords.x, coords.y, coords.z)
+    SetEntityCoords(ped, coords.x, coords.y, coords.z) 
 end)
 
-RegisterNetEvent('PSRCore:Command:TeleportToCoords', function(x, y, z, h)
+RegisterNetEvent('PSRCore:Command:TeleportToCoords', function(x, y, z, h) -- #MoneSuer | Fixed Teleport Command
     local ped = PlayerPedId()
-    SetPedCoordsKeepVehicle(ped, x, y, z)
-    SetEntityHeading(ped, h or GetEntityHeading(ped))
+    SetEntityCoords(ped, x, y, z) 
 end)
 
 RegisterNetEvent('PSRCore:Command:GoToMarker', function()
