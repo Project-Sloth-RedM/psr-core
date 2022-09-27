@@ -4,21 +4,21 @@
 RegisterNetEvent('PSRCore:Client:OnPlayerLoaded', function()
     ShutdownLoadingScreenNui()
     LocalPlayer.state:set('isLoggedIn', true, false)
-	    if PSRConfig.Player.RevealMap then
+    if QBConfig.EnablePVP then
+        Citizen.InvokeNative(0xF808475FA571D823, true)
+        SetRelationshipBetweenGroups(5, `PLAYER`, `PLAYER`)
+    end
+    if QBConfig.Player.RevealMap then
 		SetMinimapHideFow(true)
 	end
-    --if not PSRConfig.Server.PVP then return end
-    --SetCanAttackFriendly(PlayerPedId(), true, false)
-    --NetworkSetFriendlyFireOption(true)
 end)
 
 RegisterNetEvent('PSRCore:Client:OnPlayerUnload', function()
     LocalPlayer.state:set('isLoggedIn', false, false)
 end)
 
-RegisterNetEvent('PSRCore:Client:PvpHasToggled', function(pvp_state)
-    --SetCanAttackFriendly(PlayerPedId(), pvp_state, false)
-    --NetworkSetFriendlyFireOption(pvp_state)
+RegisterNetEvent('QBCore:Client:PvpHasToggled', function(pvp_state)
+    NetworkSetFriendlyFireOption(pvp_state)
 end)
 
 -- Teleport Commands
