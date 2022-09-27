@@ -34,99 +34,97 @@ RegisterNetEvent("PSRCore:Client:PvpHasToggled", function(pvp_state)
 end)
 
 -- Teleport Commands
-
-RegisterNetEvent("PSRCore:Command:TeleportToPlayer", function(coords)
-	local ped = PlayerPedId()
-	SetPedCoordsKeepVehicle(ped, coords.x, coords.y, coords.z)
+RegisterNetEvent('PSRCore:Command:TeleportToPlayer', function(coords) -- #MoneSuer | Fixed Teleport Command
+    local ped = PlayerPedId()
+    SetEntityCoords(ped, coords.x, coords.y, coords.z) 
 end)
 
-RegisterNetEvent("PSRCore:Command:TeleportToCoords", function(x, y, z, h)
-	local ped = PlayerPedId()
-	SetPedCoordsKeepVehicle(ped, x, y, z)
-	SetEntityHeading(ped, h or GetEntityHeading(ped))
+RegisterNetEvent('PSRCore:Command:TeleportToCoords', function(x, y, z, h) -- #MoneSuer | Fixed Teleport Command
+    local ped = PlayerPedId()
+    SetEntityCoords(ped, x, y, z) 
 end)
 
-RegisterNetEvent("PSRCore:Command:GoToMarker", function()
-	local PlayerPedId = PlayerPedId
-	local GetEntityCoords = GetEntityCoords
-	local GetGroundZAndNormalFor_3dCoord = GetGroundZAndNormalFor_3dCoord
+RegisterNetEvent('PSRCore:Command:GoToMarker', function()
+    local PlayerPedId = PlayerPedId
+    local GetEntityCoords = GetEntityCoords
+    local GetGroundZAndNormalFor_3dCoord = GetGroundZAndNormalFor_3dCoord
 
-	if not IsWaypointActive() then
-		PSRCore.Functions.Notify(Lang:t("error.no_waypoint"), "error", 5000)
-		return "marker"
-	end
+    if not IsWaypointActive() then
+        PSRCore.Functions.Notify(Lang:t("error.no_waypoint"), "error", 5000)
+        return 'marker'
+    end
 
-	--Fade screen to hide how clients get teleported.
-	DoScreenFadeOut(650)
-	while not IsScreenFadedOut() do
-		Wait(0)
-	end
+    --Fade screen to hide how clients get teleported.
+    DoScreenFadeOut(650)
+    while not IsScreenFadedOut() do
+        Wait(0)
+    end
 
-	local ped, coords <const> = PlayerPedId(), GetWaypointCoords()
-	local vehicle = GetVehiclePedIsIn(ped, false)
-	local oldCoords <const> = GetEntityCoords(ped)
+    local ped, coords <const> = PlayerPedId(), GetWaypointCoords()
+    local vehicle = GetVehiclePedIsIn(ped, false)
+    local oldCoords <const> = GetEntityCoords(ped)
 
-	-- Unpack coords instead of having to unpack them while iterating.
-	-- 825.0 seems to be the max a player can reach while 0.0 being the lowest.
-	local x, y, groundZ, Z_START = coords["x"], coords["y"], 850.0, 950.0
-	local found = false
-	if vehicle > 0 then
-		FreezeEntityPosition(vehicle, true)
-	else
-		FreezeEntityPosition(ped, true)
-	end
+    -- Unpack coords instead of having to unpack them while iterating.
+    -- 825.0 seems to be the max a player can reach while 0.0 being the lowest.
+    local x, y, groundZ, Z_START = coords['x'], coords['y'], 850.0, 950.0
+    local found = false
+    if vehicle > 0 then
+        FreezeEntityPosition(vehicle, true)
+    else
+        FreezeEntityPosition(ped, true)
+    end
 
-	for i = Z_START, 0, -25.0 do
-		local z = i
-		if (i % 2) ~= 0 then
-			z = Z_START - i
-		end
-		Citizen.InvokeNative(0x387AD749E3B69B70, x, y, z, x, y, z, 50.0, 0)
-		local curTime = GetGameTimer()
-		while Citizen.InvokeNative(0xCF45DF50C7775F2A) do
-			if GetGameTimer() - curTime > 1000 then
-				break
-			end
-			Wait(0)
-		end
-		Citizen.InvokeNative(0x5A8B01199C3E79C3)
-		SetEntityCoords(ped, x, y, z - 1000)
-		while Citizen.InvokeNative(0xCF45DF50C7775F2A) do
-			RequestCollisionAtCoord(x, y, z)
-			if GetGameTimer() - curTime > 1000 then
-				break
-			end
-			Wait(0)
-		end
-		-- Get ground coord. As mentioned in the natives, this only works if the client is in render distance.
-		--found, groundZ = GetGroundZFor_3dCoord(x, y, z, false)
-		found, groundZ = GetGroundZAndNormalFor_3dCoord(x, y, z)
-		if found then
-			Wait(0)
-			SetEntityCoords(ped, x, y, groundZ)
-			break
-		end
-		Wait(0)
-	end
+    for i = Z_START, 0, -25.0 do
+        local z = i
+        if (i % 2) ~= 0 then
+            z = Z_START - i
+        end
+        Citizen.InvokeNative(0x387AD749E3B69B70, x, y, z, x, y, z, 50.0, 0)
+        local curTime = GetGameTimer()
+        while Citizen.InvokeNative(0xCF45DF50C7775F2A) do
+            if GetGameTimer() - curTime > 1000 then
+                break
+            end
+            Wait(0)
+        end
+        Citizen.InvokeNative(0x5A8B01199C3E79C3)
+        SetEntityCoords(ped, x, y, z - 1000)
+        while Citizen.InvokeNative(0xCF45DF50C7775F2A) do
+            RequestCollisionAtCoord(x, y, z)
+            if GetGameTimer() - curTime > 1000 then
+                break
+            end
+            Wait(0)
+        end
+        -- Get ground coord. As mentioned in the natives, this only works if the client is in render distance.
+        --found, groundZ = GetGroundZFor_3dCoord(x, y, z, false)
+        found, groundZ = GetGroundZAndNormalFor_3dCoord(x, y, z)
+        if found then
+            Wait(0)
+            SetEntityCoords(ped, x, y, groundZ)
+            break
+        end
+        Wait(0)
+    end
 
-	-- Remove black screen once the loop has ended.
-	DoScreenFadeIn(650)
-	if vehicle > 0 then
-		FreezeEntityPosition(vehicle, false)
-	else
-		FreezeEntityPosition(ped, false)
-	end
+    -- Remove black screen once the loop has ended.
+    DoScreenFadeIn(650)
+    if vehicle > 0 then
+        FreezeEntityPosition(vehicle, false)
+    else
+        FreezeEntityPosition(ped, false)
+    end
 
-	if not found then
-		-- If we can't find the coords, set the coords to the old ones.
-		-- We don't unpack them before since they aren't in a loop and only called once.
-		SetEntityCoords(ped, oldCoords["x"], oldCoords["y"], oldCoords["z"] - 1.0)
-		PSRCore.Functions.Notify(Lang:t("error.tp_error"), "error", 5000)
-	end
+    if not found then
+        -- If we can't find the coords, set the coords to the old ones.
+        -- We don't unpack them before since they aren't in a loop and only called once.
+        SetEntityCoords(ped, oldCoords['x'], oldCoords['y'], oldCoords['z'] - 1.0)
+        PSRCore.Functions.Notify(Lang:t("error.tp_error"), "error", 5000)
+    end
 
-	-- If Z coord was found, set coords in found coords.
-	SetEntityCoords(ped, x, y, groundZ)
-	PSRCore.Functions.Notify(Lang:t("success.teleported_waypoint"), "success", 5000)
+    -- If Z coord was found, set coords in found coords.
+    SetEntityCoords(ped, x, y, groundZ)
+    PSRCore.Functions.Notify(Lang:t("success.teleported_waypoint"), "success", 5000)
 end)
 
 -- Vehicle Commands
