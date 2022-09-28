@@ -6,8 +6,8 @@ PSRConfig.UpdateInterval = 5 -- how often to update player data in minutes
 PSRConfig.StatusInterval = 5000 -- how often to check hunger/thirst status in milliseconds
 
 PSRConfig.Money = {}
-PSRConfig.Money.MoneyTypes = { cash = 500, bank = 5000, crypto = 0 } -- type = startamount - Add or remove money types for your server (for ex. blackmoney = 0), remember once added it will not be removed from the database!
-PSRConfig.Money.DontAllowMinus = { 'cash', 'crypto' } -- Money that is not allowed going in minus
+PSRConfig.Money.MoneyTypes = { cash = 500, bank = 5000, bloodmoney = 0 } -- type = startamount - Add or remove money types for your server (for ex. blackmoney = 0), remember once added it will not be removed from the database!
+PSRConfig.Money.DontAllowMinus = { 'cash', 'bloodmoney' } -- Money that is not allowed going in minus
 PSRConfig.Money.PayCheckTimeOut = 10 -- The time in minutes that it will give the paycheck
 PSRConfig.Money.PayCheckSociety = false -- If true paycheck will come from the society account that the player is employed at, requires qb-management
 

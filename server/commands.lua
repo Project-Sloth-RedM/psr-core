@@ -9,7 +9,7 @@ CreateThread(function() -- Add ace to node for perm checking
     local permissions = PSRConfig.Server.Permissions
     for i=1, #permissions do
         local permission = permissions[i]
-        ExecuteCommand(('add_ace PSRCore.%s %s allow'):format(permission, permission))
+        ExecuteCommand(('add_ace psrcore.%s %s allow'):format(permission, permission))
     end
 end)
 
@@ -292,4 +292,17 @@ PSRCore.Commands.Add('me', Lang:t("command.me.help"), {{name = Lang:t("command.m
             TriggerClientEvent('PSRCore:Command:ShowMe3D', Player, source, msg)
         end
     end
+end, 'user')
+
+-- IDs
+
+PSRCore.Commands.Add("id", "Check Your ID #", {}, false, function(source)
+	TriggerClientEvent('PSRCore:Notify', source, "ID: "..source, 'primary')
+end, 'user')
+
+PSRCore.Commands.Add("cid", "Check Your Citizen ID #", {}, false, function(source)
+    local src = source
+	local Player = PSRCore.Functions.GetPlayer(src)
+	local Playercid = Player.PlayerData.citizenid
+	TriggerClientEvent('PSRCore:Notify', source, "Citizen ID: "..Playercid, 'primary')
 end, 'user')
