@@ -1,14 +1,26 @@
+AddEventHandler("playerSpawned", function()
+	TriggerEvent("PSRCore:Client:InitialLoad")
+end)
+
+AddEventHandler("PSRCore:Client:InitialLoad", function()
+	TriggerEvent("d-character:client:initCharSelect")
+end)
+
+RegisterCommand("debug", function(source, args, raw)
+	TriggerEvent("d-character:client:initCharSelect")
+end, false)
+
 -- Player load and unload handling
 -- New method for checking if logged in across all scripts (optional)
 -- if LocalPlayer.state['isLoggedIn'] then
 RegisterNetEvent('PSRCore:Client:OnPlayerLoaded', function()
     ShutdownLoadingScreenNui()
     LocalPlayer.state:set('isLoggedIn', true, false)
-    if QBConfig.EnablePVP then
+    if PSRConfig.EnablePVP then
         Citizen.InvokeNative(0xF808475FA571D823, true)
         SetRelationshipBetweenGroups(5, `PLAYER`, `PLAYER`)
     end
-    if QBConfig.Player.RevealMap then
+    if PSRConfig.Player.RevealMap then
 		SetMinimapHideFow(true)
 	end
 end)
