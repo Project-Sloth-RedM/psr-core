@@ -3,11 +3,11 @@ AddEventHandler("playerSpawned", function()
 end)
 
 AddEventHandler("PSRCore:Client:InitialLoad", function()
-	TriggerEvent("d-character:client:initCharSelect")
+	TriggerEvent("psr-character:client:initCharSelect")
 end)
 
 RegisterCommand("debug", function(source, args, raw)
-	TriggerEvent("d-character:client:initCharSelect")
+	TriggerEvent("psr-character:client:initCharSelect")
 end, false)
 
 -- Player load and unload handling
