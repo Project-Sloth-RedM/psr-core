@@ -4,6 +4,25 @@ PSRShared.Items = {
 	-- Items
  	['water']	= {['name'] = 'water',	['label'] = 'Water',		['weight'] = 500,	['type'] = 'item',	['image'] = 'water.png',	['unique'] = false,	['useable'] = true,	['shouldClose'] = true,	['combinable'] = nil,	['level'] = 0,	['description'] = 'Drinking Water'},
  	['bread']	= {['name'] = 'bread',	['label'] = 'Bread Roll',	['weight'] = 125,	['type'] = 'item',	['image'] = 'bread.png',	['unique'] = false,	['useable'] = true,	['shouldClose'] = true,	['combinable'] = nil,	['level'] = 0,	['description'] = 'Bread Roll'},
+	['coffee']	= {['name'] = 'coffee',	['label'] = 'Coffee',		['weight'] = 125,	['type'] = 'item',	['image'] = 'coffee.png',	['unique'] = false,	['useable'] = true,	['shouldClose'] = true,	['combinable'] = nil,	['level'] = 0,	['description'] = 'Warm Coffee'},
+	['apple']	= {['name'] = 'apple',	['label'] = 'Apple',		['weight'] = 125,	['type'] = 'item',	['image'] = 'apple.png',	['unique'] = false,	['useable'] = true,	['shouldClose'] = true,	['combinable'] = nil,	['level'] = 0,	['description'] = 'A crisp apple!'},
+
+	-- Alcohol Items
+	['vodka']	= {['name'] = 'vodka',	['label'] = 'Vodka',		['weight'] = 200,	['type'] = 'item',	['image'] = 'vodka.png',	['unique'] = false,	['useable'] = true,	['shouldClose'] = true,	['combinable'] = nil,	['level'] = 0,	['description'] = ''},
+	['whiskey']	= {['name'] = 'whiskey',	['label'] = 'Whiskey',	['weight'] = 200,	['type'] = 'item',	['image'] = 'whiskey.png',	['unique'] = false,	['useable'] = true,	['shouldClose'] = true,	['combinable'] = nil,	['level'] = 0,	['description'] = ''},
+
+	-- Smoking Items
+	['lighter']		= {['name'] = 'lighter',	['label'] = 'Lighter',			['weight'] = 100,	['type'] = 'item',	['image'] = 'lighter.png',		['unique'] = false,	['useable'] = true,	['shouldClose'] = true,	['combinable'] = nil,	['level'] = 0,	['description'] = ''},
+	['cigar']		= {['name'] = 'cigar',		['label'] = 'Cigar',			['weight'] = 100,	['type'] = 'item',	['image'] = 'cigar.png',		['unique'] = false,	['useable'] = true,	['shouldClose'] = true,	['combinable'] = nil,	['level'] = 0,	['description'] = ''},
+	['pipe']		= {['name'] = 'pipe',		['label'] = 'Pipe',				['weight'] = 100,	['type'] = 'item',	['image'] = 'pipe.png',			['unique'] = false,	['useable'] = true,	['shouldClose'] = true,	['combinable'] = nil,	['level'] = 0,	['description'] = ''},
+
+	-- Doctor Job Items
+	['bandage']		= {['name'] = 'bandage',	['label'] = 'Bandage Wrap',		['weight'] = 100,	['type'] = 'item',	['image'] = 'bandage.png',		['unique'] = false,	['useable'] = true,	['shouldClose'] = true,	['combinable'] = nil,	['level'] = 0,	['description'] = 'A sterile cotton & gauze wrap to stop bleeding.'},
+	['doctorkit']	= {['name'] = 'doctorkit',	['label'] = 'Doctor\'s Kit',	['weight'] = 1000,	['type'] = 'item',	['image'] = 'doctorkit.png',	['unique'] = false,	['useable'] = true,	['shouldClose'] = true,	['combinable'] = nil,	['level'] = 0,	['description'] = 'An in-field doctor\'s kit for treating wounds.'},
+	['morphine']	= {['name'] = 'morphine',	['label'] = 'Morphine',			['weight'] = 100,	['type'] = 'item',	['image'] = 'morphine.png',		['unique'] = false,	['useable'] = true,	['shouldClose'] = true,	['combinable'] = nil,	['level'] = 0,	['description'] = 'An injection to stop the pain.'},
+
+	-- Police Job Items
+	['evidencebag']	= {['name'] = 'evidencebag',	['label'] = 'Evidence Bag',	['weight'] = 100,	['type'] = 'item',	['image'] = 'evidencebag.png',	['unique'] = false,	['useable'] = true,	['shouldClose'] = true,	['combinable'] = nil,	['level'] = 0,	['description'] = 'A police eveidence bag.'},
 
 	--AMMO
 	['ammo_repeater'] 			= {['name'] = 'ammo_repeater', 			['label'] = 'Ammo Repeater', 				['weight'] = 200, 		['type'] = 'item',				['image'] = 'ammo_bullet_normal.png', 		['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,	  ['combinable'] = nil,		['level'] = 0, 		['description'] = 'Repeater Ammo'},
@@ -22,7 +41,7 @@ PSRShared.Items = {
 	['weapon_revolver_navy'] 					= {['name'] = 'weapon_revolver_navy', 					['attachPoint'] = 2,		['label'] = 'Navy',								['weight'] = 1000,	['type'] = 'weapon', 		['ammotype'] = 'AMMO_REVOLVER', 			['image'] = 'weapon_revolver_navy.png',						['unique'] = true,		['useable'] = true,		['level'] = 0,		['description'] = 'Takes Revolver Ammo'},
 	['weapon_revolver_navy_crossover'] 			= {['name'] = 'weapon_revolver_navy_crossover', 		['attachPoint'] = 2,		['label'] = 'Navy Crossover',					['weight'] = 1000,	['type'] = 'weapon', 		['ammotype'] = 'AMMO_REVOLVER', 			['image'] = 'weapon_revolver_navy_crossover.png',			['unique'] = true,		['useable'] = true,		['level'] = 0,		['description'] = 'Takes Revolver Ammo'},
 
-	-- pistol	
+	-- pistol
 	['weapon_pistol_volcanic'] 					= {['name'] = 'weapon_pistol_volcanic', 				['attachPoint'] = 2, 		['label'] = 'Volcanic',							['weight'] = 1000,	['type'] = 'weapon', 		['ammotype'] = 'AMMO_PISTOL',	 			['image'] = 'weapon_pistol_volcanic.png',					['unique'] = true,		['useable'] = true,		['level'] = 0,		['description'] = 'Takes Pistol Ammo'},
 	['weapon_pistol_m1899'] 					= {['name'] = 'weapon_pistol_m1899', 					['attachPoint'] = 2,		['label'] = 'M1899',							['weight'] = 1000,	['type'] = 'weapon', 		['ammotype'] = 'AMMO_PISTOL',	 			['image'] = 'weapon_pistol_m1899.png',						['unique'] = true,		['useable'] = true,		['level'] = 0,		['description'] = 'Takes Pistol Ammo'},
 	['weapon_pistol_mauser'] 					= {['name'] = 'weapon_pistol_mauser', 					['attachPoint'] = 2,		['label'] = 'Mauser',							['weight'] = 1000,	['type'] = 'weapon', 		['ammotype'] = 'AMMO_PISTOL',	 			['image'] = 'weapon_pistol_mauser.png',						['unique'] = true,		['useable'] = true,		['level'] = 0,		['description'] = 'Takes Pistol Ammo'},
