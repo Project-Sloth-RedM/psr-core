@@ -13,87 +13,39 @@ PSRShared.Jobs = {
             },
         },
 	},
-	['police'] = {
-		label = 'Law Enforcement',
+	['lawmen'] = {
+		label = 'Lawmen',
 		defaultDuty = true,
 		offDutyPay = false,
 		grades = {
-            ['0'] = {
-                name = 'Recruit',
-                payment = 50
-            },
-			['1'] = {
-                name = 'Officer',
-                payment = 75
-            },
-			['2'] = {
-                name = 'Sergeant',
+			['0'] = {
+                name = 'Deputy',
                 payment = 100
             },
-			['3'] = {
-                name = 'Lieutenant',
-                payment = 125
-            },
-			['4'] = {
-                name = 'Chief',
+			['1'] = {
+                name = 'County Sheriff',
 				isboss = true,
                 payment = 150
             },
         },
 	},
-	['ambulance'] = {
-		label = 'EMS',
+	['doctor'] = {
+		label = 'Doctor',
 		defaultDuty = true,
 		offDutyPay = false,
 		grades = {
             ['0'] = {
-                name = 'Recruit',
+                name = 'Physician',
                 payment = 50
             },
 			['1'] = {
-                name = 'Paramedic',
+                name = 'Surgeon',
                 payment = 75
             },
 			['2'] = {
                 name = 'Doctor',
+                isboss = true,
                 payment = 100
-            },
-			['3'] = {
-                name = 'Surgeon',
-                payment = 125
-            },
-			['4'] = {
-                name = 'Chief',
-				isboss = true,
-                payment = 150
-            },
-        },
-	},
-	['realestate'] = {
-		label = 'Real Estate',
-		defaultDuty = true,
-		offDutyPay = false,
-		grades = {
-            ['0'] = {
-                name = 'Recruit',
-                payment = 50
-            },
-			['1'] = {
-                name = 'House Sales',
-                payment = 75
-            },
-			['2'] = {
-                name = 'Business Sales',
-                payment = 100
-            },
-			['3'] = {
-                name = 'Broker',
-                payment = 125
-            },
-			['4'] = {
-                name = 'Manager',
-				isboss = true,
-                payment = 150
             },
         },
 	},
